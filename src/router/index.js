@@ -7,17 +7,26 @@ const routes = [
   {
     path: '/',
     name: 'Auth',
-    component: Auth
+    component: Auth,
+    meta: {
+			layout: 'AuthLayout',
+		},
   },
   {
     path: '/movies',
     name: 'movies',
-    component: MovieList
+    component: MovieList,
+    meta: {
+			layout: 'AppLayout',
+		},
   },
   {
     path: '/movie-details/:movie_id',
     name: 'movie-details',
-    component: MovieDetails
+    component: MovieDetails,
+    meta: {
+			layout: 'AppLayout',
+		},
   }
 ]
 

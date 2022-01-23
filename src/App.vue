@@ -1,7 +1,15 @@
 <template>
-  <router-view/>
+  <LayoutBroker :current="$route.meta.layout"></LayoutBroker>
 </template>
+<script>
+import LayoutBroker from "./layouts/LayoutBroker.vue"
+export default {
+  components: {
+    LayoutBroker
+  }
 
+}
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
