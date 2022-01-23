@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-container fluid fill-height>
-      <v-row class="align-center justify-center">
-        <v-col cols="12" sm="8" md="5">
-          <v-card>
+    <v-container fluid >
+      <v-row no-gutters  style="height: 100vh;text-align:-webkit-center" align="center" >
+        <v-col align-self="center">
+          <v-card width="50%">
             <v-card-title primary-title class="justify-center">
               <v-icon size="80" color="primary">mdi-account-circle</v-icon>
             </v-card-title>
@@ -14,6 +14,7 @@
               <v-form ref="form" v-model="isValid">
                 <v-text-field
                     v-model="username"
+                    :rules="[searchRule]"
                   outline
                   label="Username"
                   name="user_name"
@@ -48,7 +49,10 @@ export default {
           username: '',
           error: false,
           error_message: '',
-          isValid:false
+          isValid:false,
+          searchRule: [
+                v => !!v || 'At least one character is required to search',
+            ],
       }
   },
 
@@ -60,21 +64,29 @@ export default {
       },
 
       async login(){
-          let available_users = await this.fetchUsers();
+          try {
+            if((!this.username)||(this.username=="")){
+                return this.showError("Username is required");
+            }
+            let available_users = await this.fetchUsers();
 
-          let _this = this
-          // Find the username in available users data
-          let existing_user = available_users.find( user => {
-              return user.username == _this.username
-          })
+            let _this = this
+            // Find the username in available users data
+            let existing_user = available_users.find( user => {
+                return user.username == _this.username
+            })
 
-          if(!existing_user){
-              this.showError("User not found");
+            if(!existing_user){
+                this.showError("User not found");
+            }
+
+            if(existing_user){
+                this.onSuccessFullLogin(existing_user)
+            }
+          }catch(err){
+              this.showError(err.message);
           }
 
-          if(existing_user){
-              this.onSuccessFullLogin(existing_user)
-          }
       },
 
       showError(message){

@@ -30,13 +30,12 @@
 
             <!-- Logout -->
             <v-btn
-
               height="30px"
               rounded
-              to="/login"
               class="mr-2"
               color="primary"
-              >Login</v-btn
+              @click="logout"
+              >Logout</v-btn
             >
           </v-row>
         </v-container>
@@ -55,5 +54,17 @@
 <script>
 export default {
   name:"AppLayout",
+  methods: {
+      logout() {
+          if(confirm("Are you sure you want to logout?")){
+            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("loggedInUser");
+            localStorage.removeItem("recentSearches");
+            this.$router.push({name:"Auth"})
+          }
+
+
+      }
+  }
 };
 </script>
