@@ -26,4 +26,11 @@ const router = createRouter({
   routes
 })
 
+//Navigation Guards: Check authenticated routes
+router.beforeEach((to, from, next) => {
+  let isAuthenticated = localStorage.getItem('isLoggedIn')
+  if (to.name == 'Auth' && isAuthenticated) next({ name: 'movies' })
+  if (to.name != 'Auth' && !isAuthenticated) next({ name: 'Auth' })
+  next()
+})
 export default router
